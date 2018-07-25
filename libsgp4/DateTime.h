@@ -549,7 +549,11 @@ public:
 
     DateTime AddMicroseconds(const double microseconds) const
     {
-        int64_t ticks = static_cast<int64_t>(to_double(microseconds * TicksPerMicrosecond));
+#if QD_INTEGRATION_ENABLED
+        const double ticks = microseconds * TicksPerMicrosecond;
+#else
+        const int64_t ticks = static_cast<int64_t>(to_double(microseconds * TicksPerMicrosecond));
+#endif
         return AddTicks(ticks);
     }
 
@@ -788,7 +792,11 @@ public:
     }
 
 private:
-    double m_encoded; //int64_t m_encoded;
+#if QD_INTEGRATION_ENABLED
+    double m_encoded;
+#else
+    int64_t m_encoded;
+#endif
 };
 
 inline std::ostream& operator<<(std::ostream& strm, const DateTime& dt)

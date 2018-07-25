@@ -239,8 +239,13 @@ public:
     }
 
 private:
-    //int64_t m_ticks;
-    double m_ticks;
+#if QD_INTEGRATION_ENABLED
+    typedef double ticks_type;
+#else
+    typedef int64_t ticks_type;
+#endif
+
+    ticks_type m_ticks;
 
     void CalculateTicks(int days,
             int hours,
