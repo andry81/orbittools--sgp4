@@ -23,6 +23,7 @@
 #include "SysUndefine.h"
 
 #include <cmath>
+#include <cfloat>
 
 #include "SysDefine.h"
 
@@ -92,6 +93,31 @@ const double kEPOCH_JAN1_12H_1900 = 2415020.0;
 
 // Jan 1.5 2000 = Jan 1 2000 12h UTC
 const double kEPOCH_JAN1_12H_2000 = 2451545.0;
+
+// TO FIX triginometric range in acos/asin functions !!!
+
+extern inline double truncate_float_to_minmax(double value, double min_value, double max_value)
+{
+    if (max_value < value) {
+        return max_value;
+    }
+
+    if (value < min_value) {
+        return min_value;
+    }
+
+    return value;
+}
+
+extern inline double fix_float_trigonometric_range(double value)
+{
+    // avoid fix in special case
+    if (!isnan(value) && value != DBL_MAX && value != -DBL_MAX) {
+        return truncate_float_to_minmax(value, -1.0, +1.0);
+    }
+
+    return value;
+}
 
 SGP4_NAMESPACE_END
 

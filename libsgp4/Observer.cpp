@@ -73,7 +73,13 @@ CoordTopocentric Observer::GetLookAngle(const Eci &eci) const
         az += 2.0 * kPI;
     }
 
-    double el = asin(top_z / range.w);
+    double el_sin = top_z / range.w;
+
+    // fix to avoid the trigonometric functions return NAN
+    el_sin = fix_float_trigonometric_range(el_sin);
+
+    double el = asin(el_sin);
+
     double rate = range.Dot(range_rate) / range.w;
 
     /*
