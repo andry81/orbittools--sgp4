@@ -24,6 +24,7 @@
 
 #include <cmath>
 #include <cfloat>
+#include <limits> // can't use DBL_MAX in gcc, won't compile because of an error: `error: call of overloaded 'dd_real(long double)' is ambiguous`
 
 #include "SysDefine.h"
 
@@ -94,6 +95,9 @@ const double kEPOCH_JAN1_12H_1900 = 2415020.0;
 // Jan 1.5 2000 = Jan 1 2000 12h UTC
 const double kEPOCH_JAN1_12H_2000 = 2451545.0;
 
+// `double_type` instead `double` to bypass definition substitution
+const double_type double_max = (std::numeric_limits<double_type>::max)();
+
 // TO FIX triginometric range in acos/asin functions !!!
 
 extern inline double truncate_float_to_minmax(double value, double min_value, double max_value)
@@ -112,7 +116,7 @@ extern inline double truncate_float_to_minmax(double value, double min_value, do
 extern inline double fix_float_trigonometric_range(double value)
 {
     // avoid fix in special case
-    if (!isnan(value) && value != DBL_MAX && value != -DBL_MAX) {
+    if (!isnan(value) && value != double_max && value != -double_max) {
         return truncate_float_to_minmax(value, -1.0, +1.0);
     }
 
