@@ -25,6 +25,9 @@ file(GLOB_RECURSE all_sources ${CMAKE_CURRENT_LIST_DIR}/libsgp4/*.cpp)
 add_library(${PROJECT_LIB_NAME} STATIC ${all_headers};${all_sources})
 #add_library(${PROJECT_LIB_NAME}s SHARED ${all_headers};${all_sources})
 
+initialize_library_target_defaults(${PROJECT_LIB_NAME} "32bit")
+#initialize_library_target_defaults(${PROJECT_LIB_NAME}s "32bit")
+
 #add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/libsgp4) # otherwise the error would appear
 
 source_groups_from_dir_list("Header Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.h*)
@@ -36,30 +39,18 @@ source_groups_from_dir_list("Source Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.cpp
 #)
 
 foreach(target ${PROJECT_LIB_NAME})#;${PROJECT_LIB_NAME}s)
-  add_target_compile_definitions(${target} *
-    PUBLIC
-      _X86_   # basically defined by MinGW, so define explicitly to compile in MSVC
-  )
+  if(WIN32)
+    add_target_compile_definitions(${target} *
+      PUBLIC
+        _X86_   # basically defined by MinGW, so define explicitly to compile in MSVC
+    )
+  endif()
 
   if(GCC)
-    add_target_compile_definitions(${target} DEBUG
-      PUBLIC
-        _DEBUG
-    )
-
-    add_target_compile_properties(${target} DEBUG
-      -g
-    )
-
     add_target_compile_properties(${target} *
-      -m32        # compile 32 bit target on 64 bit host
       # from library authors
       -Wall -Wextra -Wshadow -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long
       -Wcast-align -Wsign-conversion
-    )
-
-    add_target_link_properties(${target} *
-      -m32        # link 32 bit target on 64 bit host
     )
   endif()
 endforeach()
