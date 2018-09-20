@@ -48,9 +48,9 @@ void Eci::ToEci(const DateTime& dt, const CoordGeodetic &geo)
      * take into account earth flattening
      */
     const double c = 1.0
-        / sqrt(1.0 + kF * (kF - 2.0) * pow(sin(geo.latitude), 2.0));
-    const double s = pow(1.0 - kF, 2.0) * c;
-    const double achcp = (kXKMPER * c + geo.altitude) * cos(geo.latitude);
+        / std::sqrt(1.0 + kF * (kF - 2.0) * std::pow(std::sin(geo.latitude), 2.0));
+    const double s = std::pow(1.0 - kF, 2.0) * c;
+    const double achcp = (kXKMPER * c + geo.altitude) * std::cos(geo.latitude);
 
     /*
      * X position in km
@@ -58,9 +58,9 @@ void Eci::ToEci(const DateTime& dt, const CoordGeodetic &geo)
      * Z position in km
      * W magnitude in km
      */
-    m_position.x = achcp * cos(theta);
-    m_position.y = achcp * sin(theta);
-    m_position.z = (kXKMPER * s + geo.altitude) * sin(geo.latitude);
+    m_position.x = achcp * std::cos(theta);
+    m_position.y = achcp * std::sin(theta);
+    m_position.z = (kXKMPER * s + geo.altitude) * std::sin(geo.latitude);
     m_position.w = m_position.Magnitude();
 
     /*
@@ -85,7 +85,7 @@ CoordGeodetic Eci::ToGeodetic() const
     const double lon = Util::WrapNegPosPI(theta
             - m_dt.ToGreenwichSiderealTime());
 
-    const double r = sqrt((m_position.x * m_position.x)
+    const double r = std::sqrt((m_position.x * m_position.x)
             + (m_position.y * m_position.y));
     
     static const double e2 = kF * (2.0 - kF);
@@ -98,14 +98,14 @@ CoordGeodetic Eci::ToGeodetic() const
     do
     {
         phi = lat;
-        const double sinphi = sin(phi);
-        c = 1.0 / sqrt(1.0 - e2 * sinphi * sinphi);
+        const double sinphi = std::sin(phi);
+        c = 1.0 / std::sqrt(1.0 - e2 * sinphi * sinphi);
         lat = Util::AcTan(m_position.z + kXKMPER * c * e2 * sinphi, r);
         cnt++;
     }
-    while (fabs(lat - phi) >= 1e-10 && cnt < 10);
+    while (std::fabs(lat - phi) >= 1e-10 && cnt < 10);
 
-    const double alt = r / cos(lat) - kXKMPER * c;
+    const double alt = r / std::cos(lat) - kXKMPER * c;
 
     return CoordGeodetic(lat, lon, alt, true);
 }

@@ -50,10 +50,10 @@ CoordTopocentric Observer::GetLookAngle(const Eci &eci) const
      */
     double theta = eci.GetDateTime().ToLocalMeanSiderealTime(mutable_this.m_geo.longitude);
 
-    double sin_lat = sin(mutable_this.m_geo.latitude);
-    double cos_lat = cos(mutable_this.m_geo.latitude);
-    double sin_theta = sin(theta);
-    double cos_theta = cos(theta);
+    double sin_lat = std::sin(mutable_this.m_geo.latitude);
+    double cos_lat = std::cos(mutable_this.m_geo.latitude);
+    double sin_theta = std::sin(theta);
+    double cos_theta = std::cos(theta);
 
     double top_s = sin_lat * cos_theta * range.x
         + sin_lat * sin_theta * range.y - cos_lat * range.z;
@@ -61,7 +61,7 @@ CoordTopocentric Observer::GetLookAngle(const Eci &eci) const
         + cos_theta * range.y;
     double top_z = cos_lat * cos_theta * range.x 
         + cos_lat * sin_theta * range.y + sin_lat * range.z;
-    double az = atan(-top_e / top_s);
+    double az = std::atan(-top_e / top_s);
 
     if (top_s > 0.0)
     {
@@ -78,7 +78,7 @@ CoordTopocentric Observer::GetLookAngle(const Eci &eci) const
     // fix to avoid the trigonometric functions return NAN
     el_sin = fix_float_trigonometric_range(el_sin);
 
-    double el = asin(el_sin);
+    double el = std::asin(el_sin);
 
     double rate = range.Dot(range_rate) / range.w;
 

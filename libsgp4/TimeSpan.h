@@ -126,7 +126,7 @@ public:
     int Hours() const
     {
 #if QD_INTEGRATION_ENABLED
-        return static_cast<int>(to_double(fmod(m_ticks, TicksPerDay) / TicksPerHour));
+        return static_cast<int>(to_double(std::fmod(m_ticks, TicksPerDay) / TicksPerHour));
 #else
         return static_cast<int>((m_ticks % TicksPerDay) / TicksPerHour);
 #endif
@@ -135,7 +135,7 @@ public:
     int Minutes() const
     {
 #if QD_INTEGRATION_ENABLED
-        return static_cast<int>(to_double(fmod(m_ticks, TicksPerHour) / TicksPerMinute));
+        return static_cast<int>(to_double(std::fmod(m_ticks, TicksPerHour) / TicksPerMinute));
 #else
         return static_cast<int>((m_ticks % TicksPerHour) / TicksPerMinute);
 #endif
@@ -144,7 +144,7 @@ public:
     int Seconds() const
     {
 #if QD_INTEGRATION_ENABLED
-        return static_cast<int>(to_double(fmod(m_ticks, TicksPerMinute) / TicksPerSecond));
+        return static_cast<int>(to_double(std::fmod(m_ticks, TicksPerMinute) / TicksPerSecond));
 #else
         return static_cast<int>((m_ticks % TicksPerMinute) / TicksPerSecond);
 #endif
@@ -153,7 +153,7 @@ public:
     int Milliseconds() const
     {
 #if QD_INTEGRATION_ENABLED
-        return static_cast<int>(to_double(fmod(m_ticks, TicksPerSecond) / TicksPerMillisecond));
+        return static_cast<int>(to_double(std::fmod(m_ticks, TicksPerSecond) / TicksPerMillisecond));
 #else
         return static_cast<int>((m_ticks % TicksPerSecond) / TicksPerMillisecond);
 #endif
@@ -162,7 +162,7 @@ public:
     int Microseconds() const
     {
 #if QD_INTEGRATION_ENABLED
-        return static_cast<int>(to_double(fmod(m_ticks, TicksPerSecond) / TicksPerMicrosecond));
+        return static_cast<int>(to_double(std::fmod(m_ticks, TicksPerSecond) / TicksPerMicrosecond));
 #else
         return static_cast<int>((m_ticks % TicksPerSecond) / TicksPerMicrosecond);
 #endif

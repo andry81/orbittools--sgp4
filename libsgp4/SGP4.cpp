@@ -68,13 +68,13 @@ void SGP4::Initialise()
         throw SatelliteException("Inclination out of range");
     }
 
-    common_consts_.cosio = cos(elements_.Inclination());
-    common_consts_.sinio = sin(elements_.Inclination());
+    common_consts_.cosio = std::cos(elements_.Inclination());
+    common_consts_.sinio = std::sin(elements_.Inclination());
     const double theta2 = common_consts_.cosio * common_consts_.cosio;
     common_consts_.x3thm1 = 3.0 * theta2 - 1.0;
     const double eosq = elements_.Eccentricity() * elements_.Eccentricity();
     const double betao2 = 1.0 - eosq;
-    const double betao = sqrt(betao2);
+    const double betao = std::sqrt(betao2);
 
     if (elements_.Period() >= 225.0)
     {
@@ -109,7 +109,7 @@ void SGP4::Initialise()
         {
             s4 = 20.0;
         }
-        qoms24 = pow((120.0 - s4) * kAE / kXKMPER, 4.0);
+        qoms24 = std::pow((120.0 - s4) * kAE / kXKMPER, 4.0);
         s4 = s4 / kXKMPER + kAE;
     }
 
@@ -125,9 +125,9 @@ void SGP4::Initialise()
         * elements_.Eccentricity() * tsi;
     const double etasq = common_consts_.eta * common_consts_.eta;
     const double eeta = elements_.Eccentricity() * common_consts_.eta;
-    const double psisq = fabs(1.0 - etasq);
-    const double coef = qoms24 * pow(tsi, 4.0);
-    const double coef1 = coef / pow(psisq, 3.5);
+    const double psisq = std::fabs(1.0 - etasq);
+    const double coef = qoms24 * std::pow(tsi, 4.0);
+    const double coef1 = coef / std::pow(psisq, 3.5);
     const double c2 = coef1 * elements_.RecoveredMeanMotion()
         * (elements_.RecoveredSemiMajorAxis()
         * (1.0 + 1.5 * etasq + eeta * (4.0 + etasq))
@@ -144,7 +144,7 @@ void SGP4::Initialise()
         * (-3.0 * common_consts_.x3thm1 * (1.0 - 2.0 * eeta + etasq
         * (1.5 - 0.5 * eeta))
         + 0.75 * common_consts_.x1mth2 * (2.0 * etasq - eeta *
-            (1.0 + etasq)) * cos(2.0 * elements_.ArgumentPerigee())));
+            (1.0 + etasq)) * std::cos(2.0 * elements_.ArgumentPerigee())));
     const double theta4 = theta2 * theta2;
     const double temp1 = 3.0 * kCK2 * pinvsq * elements_.RecoveredMeanMotion();
     const double temp2 = temp1 * kCK2 * pinvsq;
@@ -162,7 +162,7 @@ void SGP4::Initialise()
     common_consts_.xnodcf = 3.5 * betao2 * xhdot1 * common_consts_.c1;
     common_consts_.t2cof = 1.5 * common_consts_.c1;
 
-    if (fabs(common_consts_.cosio + 1.0) > 1.5e-12)
+    if (std::fabs(common_consts_.cosio + 1.0) > 1.5e-12)
     {
         common_consts_.xlcof = 0.125 * common_consts_.a3ovk2 * common_consts_.sinio * (3.0 + 5.0 * common_consts_.cosio) / (1.0 + common_consts_.cosio);
     }
@@ -193,7 +193,7 @@ void SGP4::Initialise()
 
         nearspace_consts_.c5 = 2.0 * coef1 * elements_.RecoveredSemiMajorAxis() * betao2 * (1.0 + 2.75 *
                 (etasq + eeta) + eeta * etasq);
-        nearspace_consts_.omgcof = elements_.BStar() * c3 * cos(elements_.ArgumentPerigee());
+        nearspace_consts_.omgcof = elements_.BStar() * c3 * std::cos(elements_.ArgumentPerigee());
 
         nearspace_consts_.xmcof = 0.0;
         if (elements_.Eccentricity() > 1.0e-4)
@@ -201,8 +201,8 @@ void SGP4::Initialise()
             nearspace_consts_.xmcof = -kTWOTHIRD * coef * elements_.BStar() * kAE / eeta;
         }
 
-        nearspace_consts_.delmo = pow(1.0 + common_consts_.eta * (cos(elements_.MeanAnomoly())), 3.0);
-        nearspace_consts_.sinmo = sin(elements_.MeanAnomoly());
+        nearspace_consts_.delmo = std::pow(1.0 + common_consts_.eta * (std::cos(elements_.MeanAnomoly())), 3.0);
+        nearspace_consts_.sinmo = std::sin(elements_.MeanAnomoly());
 
         if (!use_simple_model_)
         {
@@ -278,7 +278,7 @@ Eci SGP4::FindPositionSDP4(double tsince) const
         throw SatelliteException("Error: (xn <= 0.0)");
     }
 
-    a = pow(kXKE / xn, kTWOTHIRD) * tempa * tempa;
+    a = std::pow(kXKE / xn, kTWOTHIRD) * tempa * tempa;
     e -= tempe;
     double xmam = xmdf + elements_.RecoveredMeanMotion() * templ;
 
@@ -317,8 +317,8 @@ Eci SGP4::FindPositionSDP4(double tsince) const
     /*
      * re-compute the perturbed values
      */
-    const double perturbed_sinio = sin(xincl);
-    const double perturbed_cosio = cos(xincl);
+    const double perturbed_sinio = std::sin(xincl);
+    const double perturbed_cosio = std::cos(xincl);
 
     const double perturbed_theta2 = perturbed_cosio * perturbed_cosio;
 
@@ -327,7 +327,7 @@ Eci SGP4::FindPositionSDP4(double tsince) const
     const double perturbed_x7thm1 = 7.0 * perturbed_theta2 - 1.0;
 
     double perturbed_xlcof;
-    if (fabs(perturbed_cosio + 1.0) > 1.5e-12)
+    if (std::fabs(perturbed_cosio + 1.0) > 1.5e-12)
     {
         perturbed_xlcof = 0.125 * common_consts_.a3ovk2 * perturbed_sinio
             * (3.0 + 5.0 * perturbed_cosio) / (1.0 + perturbed_cosio);
@@ -388,7 +388,7 @@ Eci SGP4::FindPositionSGP4(double tsince) const
     {
         const double delomg = nearspace_consts_.omgcof * tsince;
         const double delm = nearspace_consts_.xmcof
-            * (pow(1.0 + common_consts_.eta * cos(xmdf), 3.0)
+            * (std::pow(1.0 + common_consts_.eta * std::cos(xmdf), 3.0)
                     * - nearspace_consts_.delmo);
         const double temp = delomg + delm;
 
@@ -401,7 +401,7 @@ Eci SGP4::FindPositionSGP4(double tsince) const
         tempa = tempa - nearspace_consts_.d2 * tsq - nearspace_consts_.d3
             * tcube - nearspace_consts_.d4 * tfour;
         tempe += elements_.BStar() * nearspace_consts_.c5
-            * (sin(xmp) - nearspace_consts_.sinmo);
+            * (std::sin(xmp) - nearspace_consts_.sinmo);
         templ += nearspace_consts_.t3cof * tcube + tfour
             * (nearspace_consts_.t4cof + tsince * nearspace_consts_.t5cof);
     }
@@ -455,16 +455,16 @@ Eci SGP4::CalculateFinalPositionVelocity(
         const double sinio) const
 {
     const double beta2 = 1.0 - e * e;
-    const double xn = kXKE / pow(a, 1.5);
+    const double xn = kXKE / std::pow(a, 1.5);
     /*
      * long period periodics
      */
-    const double axn = e * cos(omega);
+    const double axn = e * std::cos(omega);
     const double temp11 = 1.0 / (a * beta2);
     const double xll = temp11 * xlcof * axn;
     const double aynl = temp11 * aycof;
     const double xlt = xl + xll;
-    const double ayn = e * sin(omega) + aynl;
+    const double ayn = e * std::sin(omega) + aynl;
     const double elsq = axn * axn + ayn * ayn;
 
     if (elsq >= 1.0)
@@ -480,7 +480,7 @@ Eci SGP4::CalculateFinalPositionVelocity(
      * - The fmod saves reduction of angle to +/-2pi in sin/cos() and prevents
      * convergence problems.
      */
-    const double capu = fmod(xlt - xnode, kTWOPI);
+    const double capu = std::fmod(xlt - xnode, kTWOPI);
     double epw = capu;
 
     double sinepw = 0.0;
@@ -491,20 +491,20 @@ Eci SGP4::CalculateFinalPositionVelocity(
     /*
      * sensibility check for N-R correction
      */
-    const double max_newton_naphson = 1.25 * fabs(sqrt(elsq));
+    const double max_newton_naphson = 1.25 * std::fabs(std::sqrt(elsq));
 
     bool kepler_running = true;
 
     for (int i = 0; i < 10 && kepler_running; i++)
     {
-        sinepw = sin(epw);
-        cosepw = cos(epw);
+        sinepw = std::sin(epw);
+        cosepw = std::cos(epw);
         ecose = axn * cosepw + ayn * sinepw;
         esine = axn * sinepw - ayn * cosepw;
 
         double f = capu - epw + esine;
 
-        if (fabs(f) < 1.0e-12)
+        if (std::fabs(f) < 1.0e-12)
         {
             kepler_running = false;
         }
@@ -555,14 +555,14 @@ Eci SGP4::CalculateFinalPositionVelocity(
 
     const double r = a * (1.0 - ecose);
     const double temp31 = 1.0 / r;
-    const double rdot = kXKE * sqrt(a) * esine * temp31;
-    const double rfdot = kXKE * sqrt(pl) * temp31;
+    const double rdot = kXKE * std::sqrt(a) * esine * temp31;
+    const double rfdot = kXKE * std::sqrt(pl) * temp31;
     const double temp32 = a * temp31;
-    const double betal = sqrt(temp21);
+    const double betal = std::sqrt(temp21);
     const double temp33 = 1.0 / (1.0 + betal);
     const double cosu = temp32 * (cosepw - axn + ayn * esine * temp33);
     const double sinu = temp32 * (sinepw - ayn - axn * esine * temp33);
-    const double u = atan2(sinu, cosu);
+    const double u = std::atan2(sinu, cosu);
     const double sin2u = 2.0 * sinu * cosu;
     const double cos2u = 2.0 * cosu * cosu - 1.0;
 
@@ -584,12 +584,12 @@ Eci SGP4::CalculateFinalPositionVelocity(
     /*
      * orientation vectors
      */
-    const double sinuk = sin(uk);
-    const double cosuk = cos(uk);
-    const double sinik = sin(xinck);
-    const double cosik = cos(xinck);
-    const double sinnok = sin(xnodek);
-    const double cosnok = cos(xnodek);
+    const double sinuk = std::sin(uk);
+    const double cosuk = std::cos(uk);
+    const double sinik = std::sin(xinck);
+    const double cosik = std::cos(xinck);
+    const double sinnok = std::sin(xnodek);
+    const double cosnok = std::cos(xnodek);
     const double xmx = -sinnok * cosik;
     const double xmy = cosnok * cosik;
     const double ux = xmx * sinuk + cosnok * cosuk;
@@ -671,10 +671,10 @@ void SGP4::DeepSpaceInitialise(
 
     const double aqnv = 1.0 / elements_.RecoveredSemiMajorAxis();
     const double xpidot = omgdot + xnodot;
-    const double sinq = sin(elements_.AscendingNode());
-    const double cosq = cos(elements_.AscendingNode());
-    const double sing = sin(elements_.ArgumentPerigee());
-    const double cosg = cos(elements_.ArgumentPerigee());
+    const double sinq = std::sin(elements_.AscendingNode());
+    const double cosq = std::cos(elements_.AscendingNode());
+    const double sing = std::sin(elements_.ArgumentPerigee());
+    const double cosg = std::cos(elements_.ArgumentPerigee());
 
     /*
      * initialize lunar / solar terms
@@ -682,23 +682,23 @@ void SGP4::DeepSpaceInitialise(
     const double jday = elements_.Epoch().ToJulian() - kEPOCH_JAN1_12H_2000;
 
     const double xnodce = 4.5236020 - 9.2422029e-4 * jday;
-    const double xnodce_temp = fmod(xnodce, kTWOPI);
-    const double stem = sin(xnodce_temp);
-    const double ctem = cos(xnodce_temp);
+    const double xnodce_temp = std::fmod(xnodce, kTWOPI);
+    const double stem = std::sin(xnodce_temp);
+    const double ctem = std::cos(xnodce_temp);
     const double zcosil = 0.91375164 - 0.03568096 * ctem;
-    const double zsinil = sqrt(1.0 - zcosil * zcosil);
+    const double zsinil = std::sqrt(1.0 - zcosil * zcosil);
     const double zsinhl = 0.089683511 * stem / zsinil;
-    const double zcoshl = sqrt(1.0 - zsinhl * zsinhl);
+    const double zcoshl = std::sqrt(1.0 - zsinhl * zsinhl);
     const double c = 4.7199672 + 0.22997150 * jday;
     const double gam = 5.8351514 + 0.0019443680 * jday;
     deepspace_consts_.zmol = Util::WrapTwoPI(c - gam);
     double zx = 0.39785416 * stem / zsinil;
     double zy = zcoshl * ctem + 0.91744867 * zsinhl * stem;
-    zx = atan2(zx, zy);
-    zx = fmod(gam + zx - xnodce, kTWOPI);
+    zx = std::atan2(zx, zy);
+    zx = std::fmod(gam + zx - xnodce, kTWOPI);
 
-    const double zcosgl = cos(zx);
-    const double zsingl = sin(zx);
+    const double zcosgl = std::cos(zx);
+    const double zsingl = std::sin(zx);
     deepspace_consts_.zmos = Util::WrapTwoPI(6.2565837 + 0.017201977 * jday);
 
     /*
@@ -1058,10 +1058,10 @@ void SGP4::DeepSpaceCalculateLunarSolarTerms(
      * calculate solar terms for time tsince
      */
     double zm = deepspace_consts_.zmos + ZNS * tsince;
-    double zf = zm + 2.0 * ZES * sin(zm);
-    double sinzf = sin(zf);
+    double zf = zm + 2.0 * ZES * std::sin(zm);
+    double sinzf = std::sin(zf);
     double f2 = 0.5 * sinzf * sinzf - 0.25;
-    double f3 = -0.5 * sinzf * cos(zf);
+    double f3 = -0.5 * sinzf * std::cos(zf);
 
     const double ses = deepspace_consts_.se2 * f2
         + deepspace_consts_.se3 * f3;
@@ -1080,10 +1080,10 @@ void SGP4::DeepSpaceCalculateLunarSolarTerms(
      * calculate lunar terms for time tsince
      */
     zm = deepspace_consts_.zmol + ZNL * tsince;
-    zf = zm + 2.0 * ZEL * sin(zm);
-    sinzf = sin(zf);
+    zf = zm + 2.0 * ZEL * std::sin(zm);
+    sinzf = std::sin(zf);
     f2 = 0.5 * sinzf * sinzf - 0.25;
-    f3 = -0.5 * sinzf * cos(zf);
+    f3 = -0.5 * sinzf * std::cos(zf);
 
     const double sel = deepspace_consts_.ee2 * f2
         + deepspace_consts_.e3 * f3;
@@ -1143,8 +1143,8 @@ void SGP4::DeepSpacePeriodics(
      * if (xinc >= 0.2)
      * (moved from start of function)
      */
-    const double sinis = sin(xinc);
-    const double cosis = cos(xinc);
+    const double sinis = std::sin(xinc);
+    const double cosis = std::cos(xinc);
 
     if (xinc >= 0.2)
     {
@@ -1162,8 +1162,8 @@ void SGP4::DeepSpacePeriodics(
         /*
          * apply periodics with lyddane modification
          */
-        const double sinok = sin(xnodes);
-        const double cosok = cos(xnodes);
+        const double sinok = std::sin(xnodes);
+        const double cosok = std::cos(xnodes);
         double alfdp = sinis * sinok;
         double betdp = sinis * cosok;
         const double dalf = ph * cosok + pinc * cosis * sinok;
@@ -1183,7 +1183,7 @@ void SGP4::DeepSpacePeriodics(
          */
         const double oldxnodes = xnodes;
 
-        xnodes = atan2(alfdp, betdp);
+        xnodes = std::atan2(alfdp, betdp);
         if (xnodes < 0.0)
         {
             xnodes += kTWOPI;
@@ -1194,7 +1194,7 @@ void SGP4::DeepSpacePeriodics(
          * RAAN is in the range of 0 to 360 degrees
          * atan2 is in the range of -180 to 180 degrees
          */
-        if (fabs(oldxnodes - xnodes) > kPI)
+        if (std::fabs(oldxnodes - xnodes) > kPI)
         {
             if (xnodes < oldxnodes)
             {
@@ -1238,9 +1238,9 @@ void SGP4::DeepSpaceSecular(
          * 3rd condition (if tsince is closer to zero than 
          *     integrator_params_.atime, only integrate away from zero)
          */
-        if (fabs(tsince) < STEP ||
-                tsince * integrator_params_.atime <= 0.0 ||
-                fabs(tsince) < fabs(integrator_params_.atime))
+        if (std::fabs(tsince) < STEP ||
+            tsince * integrator_params_.atime <= 0.0 ||
+            std::fabs(tsince) < std::fabs(integrator_params_.atime))
         {
             /*
              * restart from epoch
@@ -1262,7 +1262,7 @@ void SGP4::DeepSpaceSecular(
          * loop around until integrator_params_.atime is within one time step of
          * tsince
          */
-        if (fabs(ft) >= STEP)
+        if (std::fabs(ft) >= STEP)
         {
             /*
              * calculate step direction to allow integrator_params_.atime
@@ -1287,7 +1287,7 @@ void SGP4::DeepSpaceSecular(
                 DeepSpaceCalcDotTerms(integrator_params_.values_t);
 
                 ft = tsince - integrator_params_.atime;
-            } while (fabs(ft) >= STEP);
+            } while (std::fabs(ft) >= STEP);
         }
 
         /*
@@ -1327,17 +1327,17 @@ void SGP4::DeepSpaceCalcDotTerms(struct IntegratorValues& values) const
     {
 
         values.xndot = deepspace_consts_.del1
-            * sin(integrator_params_.xli - FASX2)
+            * std::sin(integrator_params_.xli - FASX2)
             + deepspace_consts_.del2
-            * sin(2.0 * (integrator_params_.xli - FASX4))
+            * std::sin(2.0 * (integrator_params_.xli - FASX4))
             + deepspace_consts_.del3
-            * sin(3.0 * (integrator_params_.xli - FASX6));
+            * std::sin(3.0 * (integrator_params_.xli - FASX6));
         values.xnddt = deepspace_consts_.del1
-            * cos(integrator_params_.xli - FASX2)
+            * std::cos(integrator_params_.xli - FASX2)
             + 2.0 * deepspace_consts_.del2
-            * cos(2.0 * (integrator_params_.xli - FASX4))
+            * std::cos(2.0 * (integrator_params_.xli - FASX4))
             + 3.0 * deepspace_consts_.del3
-            * cos(3.0 * (integrator_params_.xli - FASX6));
+            * std::cos(3.0 * (integrator_params_.xli - FASX6));
     }
     else
     {
@@ -1347,44 +1347,44 @@ void SGP4::DeepSpaceCalcDotTerms(struct IntegratorValues& values) const
         const double x2li = integrator_params_.xli + integrator_params_.xli;
 
         values.xndot = deepspace_consts_.d2201
-            * sin(x2omi + integrator_params_.xli - G22)
+            * std::sin(x2omi + integrator_params_.xli - G22)
             * deepspace_consts_.d2211
-            * sin(integrator_params_.xli - G22)
+            * std::sin(integrator_params_.xli - G22)
             + deepspace_consts_.d3210
-            * sin(xomi + integrator_params_.xli - G32)
+            * std::sin(xomi + integrator_params_.xli - G32)
             + deepspace_consts_.d3222
-            * sin(-xomi + integrator_params_.xli - G32)
+            * std::sin(-xomi + integrator_params_.xli - G32)
             + deepspace_consts_.d4410
-            * sin(x2omi + x2li - G44)
+            * std::sin(x2omi + x2li - G44)
             + deepspace_consts_.d4422
-            * sin(x2li - G44)
+            * std::sin(x2li - G44)
             + deepspace_consts_.d5220
-            * sin(xomi + integrator_params_.xli - G52)
+            * std::sin(xomi + integrator_params_.xli - G52)
             + deepspace_consts_.d5232
-            * sin(-xomi + integrator_params_.xli - G52)
+            * std::sin(-xomi + integrator_params_.xli - G52)
             + deepspace_consts_.d5421
-            * sin(xomi + x2li - G54)
+            * std::sin(xomi + x2li - G54)
             + deepspace_consts_.d5433
-            * sin(-xomi + x2li - G54);
+            * std::sin(-xomi + x2li - G54);
         values.xnddt = deepspace_consts_.d2201
-            * cos(x2omi + integrator_params_.xli - G22)
+            * std::cos(x2omi + integrator_params_.xli - G22)
             + deepspace_consts_.d2211
-            * cos(integrator_params_.xli - G22)
+            * std::cos(integrator_params_.xli - G22)
             + deepspace_consts_.d3210
-            * cos(xomi + integrator_params_.xli - G32)
+            * std::cos(xomi + integrator_params_.xli - G32)
             + deepspace_consts_.d3222
-            * cos(-xomi + integrator_params_.xli - G32)
+            * std::cos(-xomi + integrator_params_.xli - G32)
             + deepspace_consts_.d5220
-            * cos(xomi + integrator_params_.xli - G52)
+            * std::cos(xomi + integrator_params_.xli - G52)
             + deepspace_consts_.d5232
-            * cos(-xomi + integrator_params_.xli - G52)
-            + 2.0 * (deepspace_consts_.d4410 * cos(x2omi + x2li - G44)
+            * std::cos(-xomi + integrator_params_.xli - G52)
+            + 2.0 * (deepspace_consts_.d4410 * std::cos(x2omi + x2li - G44)
             + deepspace_consts_.d4422
-            * cos(x2li - G44)
+            * std::cos(x2li - G44)
             + deepspace_consts_.d5421
-            * cos(xomi + x2li - G54)
+            * std::cos(xomi + x2li - G54)
             + deepspace_consts_.d5433
-            * cos(-xomi + x2li - G54));
+            * std::cos(-xomi + x2li - G54));
     }
 
     values.xldot = integrator_params_.xni + integrator_consts_.xfact;

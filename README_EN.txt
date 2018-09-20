@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2018.07.16
+* 2018.09.20
 * sgp4
 
 1. DESCRIPTION
@@ -14,6 +14,8 @@
 SGP4 patched sources fork from:
 https://www.danrw.com/sgp4/
 https://github.com/dnwrnr/sgp4
+
+Partially refactored to use C++ std types and std functions.
 
 C++ SGP4 Satellite Library
 

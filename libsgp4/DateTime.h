@@ -440,7 +440,7 @@ public:
     TimeSpan TimeOfDay() const
     {
 #if QD_INTEGRATION_ENABLED
-        return TimeSpan(fmod(Ticks(), TicksPerDay));
+        return TimeSpan(std::fmod(Ticks(), TicksPerDay));
 #else
         return TimeSpan(Ticks() % TicksPerDay);
 #endif
@@ -459,7 +459,7 @@ public:
          * 6 Saturday
          */
 #if QD_INTEGRATION_ENABLED
-        return static_cast<int>(to_double(fmod(((m_encoded / TicksPerDay) + 1LL), 7LL)));
+        return static_cast<int>(to_double(std::fmod(((m_encoded / TicksPerDay) + 1LL), 7LL)));
 #else
         return static_cast<int>(((m_encoded / TicksPerDay) + 1LL) % 7LL);
 #endif
@@ -689,7 +689,7 @@ public:
     int Hour() const
     {
 #if QD_INTEGRATION_ENABLED
-        return static_cast<int>(to_double(fmod(m_encoded, TicksPerDay) / TicksPerHour));
+        return static_cast<int>(to_double(std::fmod(m_encoded, TicksPerDay) / TicksPerHour));
 #else
         return static_cast<int>(m_encoded % TicksPerDay / TicksPerHour);
 #endif
@@ -702,7 +702,7 @@ public:
     int Minute() const
     {
 #if QD_INTEGRATION_ENABLED
-        return static_cast<int>(to_double(fmod(m_encoded, TicksPerHour) / TicksPerMinute));
+        return static_cast<int>(to_double(std::fmod(m_encoded, TicksPerHour) / TicksPerMinute));
 #else
         return static_cast<int>(m_encoded % TicksPerHour / TicksPerMinute);
 #endif
@@ -715,7 +715,7 @@ public:
     int Second() const
     {
 #if QD_INTEGRATION_ENABLED
-        return static_cast<int>(to_double(fmod(m_encoded, TicksPerMinute) / TicksPerSecond));
+        return static_cast<int>(to_double(std::fmod(m_encoded, TicksPerMinute) / TicksPerSecond));
 #else
         return static_cast<int>(m_encoded % TicksPerMinute / TicksPerSecond);
 #endif
@@ -728,7 +728,7 @@ public:
     int Microsecond() const
     {
 #if QD_INTEGRATION_ENABLED
-        return static_cast<int>(to_double(fmod(m_encoded, TicksPerSecond) / TicksPerMicrosecond));
+        return static_cast<int>(to_double(std::fmod(m_encoded, TicksPerSecond) / TicksPerMicrosecond));
 #else
         return static_cast<int>(m_encoded % TicksPerSecond / TicksPerMicrosecond);
 #endif

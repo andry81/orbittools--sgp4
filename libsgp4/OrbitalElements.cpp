@@ -42,13 +42,13 @@ OrbitalElements::OrbitalElements(const Tle& tle)
      * recover original mean motion (xnodp) and semimajor axis (aodp)
      * from input elements
      */
-    const double a1 = pow(kXKE / MeanMotion(), kTWOTHIRD);
-    const double cosio = cos(Inclination());
+    const double a1 = std::pow(kXKE / MeanMotion(), kTWOTHIRD);
+    const double cosio = std::cos(Inclination());
     const double theta2 = cosio * cosio;
     const double x3thm1 = 3.0 * theta2 - 1.0;
     const double eosq = Eccentricity() * Eccentricity();
     const double betao2 = 1.0 - eosq;
-    const double betao = sqrt(betao2);
+    const double betao = std::sqrt(betao2);
     const double temp = (1.5 * kCK2) * x3thm1 / (betao * betao2);
     const double del1 = temp / (a1 * a1);
     const double a0 = a1 * (1.0 - del1 * (1.0 / 3.0 + del1 * (1.0 + del1 * 134.0 / 81.0)));

@@ -48,7 +48,7 @@ const double kXJ4 = -1.65597e-6;
  * dundee
  * const double kXKE = 7.43669161331734132e-2;
  */
-const double kXKE = 60.0 / sqrt(kXKMPER * kXKMPER * kXKMPER / kMU);
+const double kXKE = 60.0 / std::sqrt(kXKMPER * kXKMPER * kXKMPER / kMU);
 const double kCK2 = 0.5 * kXJ2 * kAE * kAE;
 const double kCK4 = -0.375 * kXJ4 * kAE * kAE * kAE * kAE;
 
@@ -56,11 +56,11 @@ const double kCK4 = -0.375 * kXJ4 * kAE * kAE * kAE * kAE;
  * alternative QOMS2T
  * affects final results
  * aiaa-2006-6573
- * #define QOMS2T   (pow(((Q0 - S0) / XKMPER), 4.0))
+ * #define QOMS2T   (std::pow(((Q0 - S0) / XKMPER), 4.0))
  * dundee
  * #define QOMS2T   (1.880279159015270643865e-9)
  */
-const double kQOMS2T = pow(((kQ0 - kS0) / kXKMPER), 4.0);
+const double kQOMS2T = std::pow(((kQ0 - kS0) / kXKMPER), 4.0);
 
 const double kS = kAE * (1.0 + kS0 / kXKMPER);
 #if QD_INTEGRATION_ENABLED
@@ -116,7 +116,7 @@ extern inline double truncate_float_to_minmax(double value, double min_value, do
 extern inline double fix_float_trigonometric_range(double value)
 {
     // avoid fix in special case
-    if (isnormal(value) && value != double_max && value != -double_max) {
+    if (std::isnormal(value) && value != double_max && value != -double_max) {
         return truncate_float_to_minmax(value, -1.0, +1.0);
     }
 

@@ -50,7 +50,7 @@ namespace Util
             return x;
         }
 
-        return x - y * floor(x / y);
+        return x - y * std::floor(x / y);
     }
 
     inline double WrapNegPosPI(const double a)
@@ -100,11 +100,11 @@ namespace Util
         {
             if (cosx > 0.0)
             {
-                return atan(sinx / cosx);
+                return std::atan(sinx / cosx);
             }
             else
             {
-                return kPI + atan(sinx / cosx);
+                return kPI + std::atan(sinx / cosx);
             }
         }
     }
