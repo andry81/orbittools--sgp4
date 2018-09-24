@@ -7,8 +7,8 @@ project("sgp4")
 set(PROJECT_LIB_NAME sgp4)
 
 discover_variable(QD_ROOT PATH "QD math library")
-discover_variable(SGP4_ENABLE_QD_QD_INTEGRATION STRING "SGP4 library qd_real replacement for the double")
-discover_variable(SGP4_ENABLE_QD_DD_INTEGRATION STRING "SGP4 library dd_real replacement for the double")
+discover_variable(ENABLE_QD_QD_INTEGRATION STRING "enable Qd library qd_real replacement for the double")
+discover_variable(ENABLE_QD_DD_INTEGRATION STRING "enable Qd library dd_real replacement for the double")
 
 
 # Workaround for the issue: https://stackoverflow.com/questions/51272106/cmake-add-subdirectory-twice-as-a-shared-project
@@ -66,15 +66,15 @@ target_link_libraries(${PROJECT_LIB_NAME} # the workaround for the error from he
     qd
 )
 
-if (SGP4_ENABLE_QD_QD_INTEGRATION)
+if (ENABLE_QD_QD_INTEGRATION)
   add_target_compile_definitions(${PROJECT_LIB_NAME} *
     PUBLIC
-      SGP4_ENABLE_QD_QD_INTEGRATION
+      ENABLE_QD_QD_INTEGRATION
   )
 endif()
-if (SGP4_ENABLE_QD_DD_INTEGRATION)
+if (ENABLE_QD_DD_INTEGRATION)
   add_target_compile_definitions(${PROJECT_LIB_NAME} *
     PUBLIC
-      SGP4_ENABLE_QD_DD_INTEGRATION
+      ENABLE_QD_DD_INTEGRATION
   )
 endif()

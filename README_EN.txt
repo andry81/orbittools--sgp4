@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2018.09.20
+* 2018.09.21
 * sgp4
 
 1. DESCRIPTION
@@ -26,6 +26,10 @@ The original library patched to fix these issue:
 
 2. uint64_t in DateTime and all time related classes replaced by floating point
    value to avoid truncation of the ticks fraction part.
+
+3. Fix trigonometric range before call and after call to triginometric
+   functions because of sloppy QD arithmetic outside and inside a function
+   call.
 
 All patches improved precision from ~1 meter per 100km altitude along
 velocity vector in certain routines up to 10^-7 meters per 100km altitude along

@@ -76,7 +76,7 @@ CoordTopocentric Observer::GetLookAngle(const Eci &eci) const
     double el_sin = top_z / range.w;
 
     // fix to avoid the trigonometric functions return NAN
-    el_sin = fix_float_trigonometric_range(el_sin);
+    el_sin = fix_float_trigonometric_range_factor(el_sin);
 
     double el = std::asin(el_sin);
 
