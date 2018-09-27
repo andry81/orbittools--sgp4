@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2018.09.21
+* 2018.09.27
 * sgp4
 
 1. DESCRIPTION
@@ -15,21 +15,22 @@ SGP4 patched sources fork from:
 https://www.danrw.com/sgp4/
 https://github.com/dnwrnr/sgp4
 
-Partially refactored to use C++ std types and std functions.
+Partially refactored to apply common namespace, and use C++ std types and std
+functions.
 
 C++ SGP4 Satellite Library
 
-The original library patched to fix these issue:
+The original library patched to fix these issues:
 
-1. All double's replaced by dd_real from QD library to decrease precision
-   fluctuation to the minimum in certain cases.
-
-2. uint64_t in DateTime and all time related classes replaced by floating point
-   value to avoid truncation of the ticks fraction part.
-
-3. Fix trigonometric range before call and after call to triginometric
+1. Fix trigonometric range before call and after call to triginometric
    functions because of sloppy QD arithmetic outside and inside a function
    call.
+
+2. All double's replaced by dd_real from QD library to decrease precision
+   fluctuation to the minimum in certain cases.
+
+3. uint64_t in DateTime and all time related classes replaced by floating point
+   value to avoid truncation of the ticks fraction part.
 
 All patches improved precision from ~1 meter per 100km altitude along
 velocity vector in certain routines up to 10^-7 meters per 100km altitude along
