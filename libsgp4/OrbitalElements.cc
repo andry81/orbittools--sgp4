@@ -51,7 +51,7 @@ OrbitalElements::OrbitalElements(const Tle& tle)
     const double betao = std::sqrt(betao2);
     const double temp = (1.5 * kCK2) * x3thm1 / (betao * betao2);
     const double del1 = temp / (a1 * a1);
-    const double a0 = a1 * (1.0 - del1 * (1.0 / 3.0 + del1 * (1.0 + del1 * 134.0 / 81.0)));
+    const double a0 = a1 * (1.0 - del1 * (double(1.0) / 3.0 + del1 * (1.0 + del1 * double(134.0) / 81.0)));
     const double del0 = temp / (a0 * a0);
 
     recovered_mean_motion_ = MeanMotion() / (1.0 + del0);

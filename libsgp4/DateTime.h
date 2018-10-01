@@ -26,7 +26,6 @@
 #include <iostream>
 #include <sstream>
 #include <stdint.h>
-
 #include "TimeSpan.h"
 #include "Util.h"
 
@@ -46,7 +45,6 @@
 
 #include "SysDefine.h"
 #endif
-
 
 SGP4_NAMESPACE_BEGIN
 
@@ -142,9 +140,9 @@ public:
     }
 
     /**
-    * Constructor
-    * @param[in] ticks raw tick value
-    */
+     * Constructor
+     * @param[in] ticks raw tick value
+     */
 #if QD_INTEGRATION_ENABLED
     DateTime(double ticks)
         : m_encoded(ticks)
@@ -570,9 +568,9 @@ public:
 #endif
 
     /**
-    * Get the number of ticks
-    * @returns the number of ticks
-    */
+     * Get the number of ticks
+     * @returns the number of ticks
+     */
 #if QD_INTEGRATION_ENABLED
     double Ticks() const
     {
@@ -750,17 +748,27 @@ public:
      */
     double ToGreenwichSiderealTime() const
     {
-        // t = Julian centuries from 2000 Jan. 1 12h UT1
-        const double t = (ToJulian() - 2451545.0) / 36525.0;
+        // julian date of previous midnight
+        double jd0 = std::floor(ToJulian() + 0.5) - 0.5;
+        // julian centuries since epoch
+        double t   = (jd0 - 2451545.0) / 36525.0;
+        double jdf = ToJulian() - jd0;
 
-        // Rotation angle in arcseconds
-        double theta = 67310.54841
-            + (876600.0 * 3600.0 + 8640184.812866) * t
-            + 0.093104 * t * t
-            - 0.0000062 * t * t * t;
+        double gt  = double(int64_t(24110'54841)) / 1e5 + t * (double(int64_t(8640184'812866)) / 1e6 + t * (double(93104) / 1e6 - t * double(62) / 1e7));
+        gt  += jdf * double(int64_t(1'00273790935)) * 86400.0 / 1e11;
 
         // 360.0 / 86400.0 = 1.0 / 240.0
-        return Util::WrapTwoPI(Util::DegreesToRadians(theta / 240.0));
+        return Util::WrapTwoPI(Util::DegreesToRadians(gt / 240.0));
+    }
+
+    /**
+     * Return the modified julian date since the j2000 epoch
+     * January 1, 2000, at 12:00 TT
+     * @returns the modified julian date
+     */
+    double ToJ2000() const
+    {
+        return ToJulian() - 2415020.0;
     }
 
     /**

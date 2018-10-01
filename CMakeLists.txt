@@ -20,7 +20,7 @@ discover_variable(ENABLE_QD_DD_INTEGRATION STRING "enable Qd library dd_real rep
 #     this directory.
 #
 file(GLOB_RECURSE all_headers ${CMAKE_CURRENT_LIST_DIR}/libsgp4/*.h*)
-file(GLOB_RECURSE all_sources ${CMAKE_CURRENT_LIST_DIR}/libsgp4/*.cpp)
+file(GLOB_RECURSE all_sources ${CMAKE_CURRENT_LIST_DIR}/libsgp4/*.c*)
 
 add_library(${PROJECT_LIB_NAME} STATIC ${all_headers};${all_sources})
 #add_library(${PROJECT_LIB_NAME}s SHARED ${all_headers};${all_sources})
@@ -31,7 +31,7 @@ initialize_library_target_defaults(${PROJECT_LIB_NAME} "32bit")
 #add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/libsgp4) # otherwise the error would appear
 
 source_groups_from_dir_list("Header Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.h*)
-source_groups_from_dir_list("Source Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.cpp)
+source_groups_from_dir_list("Source Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.c*)
 
 #target_include_directories(${PROJECT_LIB_NAME}
 #  PUBLIC

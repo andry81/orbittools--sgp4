@@ -1,3 +1,7 @@
+2018.10.01:
+* fixed: constants which could not fit in the double representation w/o truncation has converted into fractional number representation with inplace division
+* changed: merge with the latest library repository changes at commit #e73df2f240b3a7d290903cfdc6bae55777f7f063 from https://github.com/dnwrnr/sgp4/commits/master
+
 2018.09.24:
 * fixed: rare out-of-range bug in output from QD trigonometric functions like `dd_real::asin` because of sloppy arithmetic outside and inside a function call
 * fixed: constants through fractional number representation to avoid truncation to a double
