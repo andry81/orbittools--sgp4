@@ -57,7 +57,7 @@ endforeach()
 
 # integration with QD
 
-add_target_subdirectory(qd ${QD_ROOT} ${CMAKE_BUILD_ROOT}/_3dparty/math/qd)
+add_target_subdirectory(QD_ROOT qd ${CMAKE_BUILD_ROOT}/_3dparty/math/qd)
 
 add_dependencies(${PROJECT_LIB_NAME} qd)
 
