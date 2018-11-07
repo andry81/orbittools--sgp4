@@ -1,3 +1,7 @@
+2018.11.01:
+* changed: added missed tle element set number field extraction
+* changed: minor change over the `= default` operator usage (C++11 standard)
+
 2018.10.17:
 * changed: update for latest cmake dependency
 

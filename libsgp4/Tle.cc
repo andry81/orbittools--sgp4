@@ -48,8 +48,8 @@ namespace
     static const unsigned int TLE1_LEN_BSTAR = 8;
 //  static const unsigned int TLE1_COL_EPHEMTYPE = 62;
 //  static const unsigned int TLE1_LEN_EPHEMTYPE = 1;
-//  static const unsigned int TLE1_COL_ELNUM = 64;
-//  static const unsigned int TLE1_LEN_ELNUM = 4;
+    static const unsigned int TLE1_COL_ELNUM = 64;
+    static const unsigned int TLE1_LEN_ELNUM = 4;
 
     static const unsigned int TLE2_COL_NORADNUM = 2;
     static const unsigned int TLE2_LEN_NORADNUM = 5;
@@ -131,6 +131,9 @@ void Tle::Initialize()
                 TLE1_LEN_MEANMOTIONDDT6), mean_motion_ddt6_);
     ExtractExponential(line_one_.substr(TLE1_COL_BSTAR,
                 TLE1_LEN_BSTAR), bstar_);
+
+    ExtractInteger(line_one_.substr(TLE1_COL_ELNUM,
+        TLE1_LEN_ELNUM), element_set_number_);
 
     /*
      * line 2

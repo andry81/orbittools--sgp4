@@ -68,28 +68,7 @@ public:
      * Copy constructor
      * @param[in] tle Tle object to copy from
      */
-    Tle(const Tle& tle)
-    {
-        name_ = tle.name_;
-        line_one_ = tle.line_one_;
-        line_two_ = tle.line_two_;
-
-        norad_number_ = tle.norad_number_;
-        int_designator_ = tle.int_designator_;
-        epoch_ = tle.epoch_;
-        mean_motion_dt2_ = tle.mean_motion_dt2_;
-        mean_motion_ddt6_ = tle.mean_motion_ddt6_;
-        bstar_ = tle.bstar_;
-        inclination_ = tle.inclination_;
-        right_ascending_node_ = tle.right_ascending_node_;
-        eccentricity_ = tle.eccentricity_;
-        argument_perigee_ = tle.argument_perigee_;
-        mean_anomaly_ = tle.mean_anomaly_;
-        mean_motion_ = tle.mean_motion_;
-        orbit_number_ = tle.orbit_number_;
-        epoch_year_day_ = tle.epoch_year_day_;
-        epoch_year_ = tle.epoch_year_;
-    }
+    Tle(const Tle& tle) = default;
 
     /**
      * Get the satellite name
@@ -125,6 +104,15 @@ public:
     unsigned int NoradNumber() const
     {
         return norad_number_;
+    }
+
+    /**
+    * Get the element set number
+    * @returns the element set number
+    */
+    unsigned int ElementSetNumber() const
+    {
+        return element_set_number_;
     }
 
     /**
@@ -355,6 +343,7 @@ private:
     unsigned int epoch_year_;
     unsigned int norad_number_;
     unsigned int orbit_number_;
+    unsigned int element_set_number_;
 
     static const unsigned int TLE_LEN_LINE_DATA = 69;
     static const unsigned int TLE_LEN_LINE_NAME = 22;
