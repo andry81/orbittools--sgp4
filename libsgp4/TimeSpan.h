@@ -57,7 +57,7 @@ const int64_t GregorianStart = 49916304000000000LL;
 class TimeSpan
 {
 public:
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
     TimeSpan(double ticks)
         : m_ticks(ticks)
     {
@@ -116,7 +116,7 @@ public:
 
     int Days() const
     {
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
         return static_cast<int>(to_double(m_ticks / TicksPerDay));
 #else
         return static_cast<int>(m_ticks / TicksPerDay);
@@ -125,7 +125,7 @@ public:
 
     int Hours() const
     {
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
         return static_cast<int>(to_double(std::fmod(m_ticks, TicksPerDay) / TicksPerHour));
 #else
         return static_cast<int>((m_ticks % TicksPerDay) / TicksPerHour);
@@ -134,7 +134,7 @@ public:
 
     int Minutes() const
     {
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
         return static_cast<int>(to_double(std::fmod(m_ticks, TicksPerHour) / TicksPerMinute));
 #else
         return static_cast<int>((m_ticks % TicksPerHour) / TicksPerMinute);
@@ -143,7 +143,7 @@ public:
 
     int Seconds() const
     {
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
         return static_cast<int>(to_double(std::fmod(m_ticks, TicksPerMinute) / TicksPerSecond));
 #else
         return static_cast<int>((m_ticks % TicksPerMinute) / TicksPerSecond);
@@ -152,7 +152,7 @@ public:
 
     int Milliseconds() const
     {
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
         return static_cast<int>(to_double(std::fmod(m_ticks, TicksPerSecond) / TicksPerMillisecond));
 #else
         return static_cast<int>((m_ticks % TicksPerSecond) / TicksPerMillisecond);
@@ -161,14 +161,14 @@ public:
     
     int Microseconds() const
     {
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
         return static_cast<int>(to_double(std::fmod(m_ticks, TicksPerSecond) / TicksPerMicrosecond));
 #else
         return static_cast<int>((m_ticks % TicksPerSecond) / TicksPerMicrosecond);
 #endif
     }
 
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
     double Ticks() const
     {
         return m_ticks;
@@ -239,7 +239,7 @@ public:
     }
 
 private:
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
     typedef double ticks_type;
 #else
     typedef int64_t ticks_type;

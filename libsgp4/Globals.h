@@ -63,7 +63,7 @@ const double kCK4 = double(-375) * kXJ4 * kAE * kAE * kAE * kAE / 1000;
 const double kQOMS2T = std::pow(((kQ0 - kS0) / kXKMPER), 4.0);
 
 const double kS = kAE * (1.0 + kS0 / kXKMPER);
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
 const double kPI = double::_pi();
 const double kTWOPI = double::_2pi();
 #else

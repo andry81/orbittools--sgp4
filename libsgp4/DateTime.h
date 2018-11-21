@@ -143,7 +143,7 @@ public:
      * Constructor
      * @param[in] ticks raw tick value
      */
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
     DateTime(double ticks)
         : m_encoded(ticks)
     {
@@ -162,7 +162,7 @@ public:
      */
     DateTime(unsigned int year, double doy)
     {
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
         m_encoded = TimeSpan(
                 static_cast<int64_t>(to_double(AbsoluteDays(year, doy) * TicksPerDay))).Ticks();
 #else
@@ -437,7 +437,7 @@ public:
 
     TimeSpan TimeOfDay() const
     {
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
         return TimeSpan(std::fmod(Ticks(), TicksPerDay));
 #else
         return TimeSpan(Ticks() % TicksPerDay);
@@ -456,7 +456,7 @@ public:
          * 5 Friday
          * 6 Saturday
          */
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
         return static_cast<int>(to_double(std::fmod(((m_encoded / TicksPerDay) + 1LL), 7LL)));
 #else
         return static_cast<int>(((m_encoded / TicksPerDay) + 1LL) % 7LL);
@@ -547,7 +547,7 @@ public:
 
     DateTime AddMicroseconds(const double microseconds) const
     {
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
         const double ticks = microseconds * TicksPerMicrosecond;
 #else
         const int64_t ticks = static_cast<int64_t>(to_double(microseconds * TicksPerMicrosecond));
@@ -555,7 +555,7 @@ public:
         return AddTicks(ticks);
     }
 
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
     DateTime AddTicks(double ticks) const
     {
         return DateTime(m_encoded + ticks);
@@ -571,7 +571,7 @@ public:
      * Get the number of ticks
      * @returns the number of ticks
      */
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
     double Ticks() const
     {
         return m_encoded;
@@ -585,7 +585,7 @@ public:
 
     void FromTicks(int& year, int& month, int& day) const
     {
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
         int totalDays = static_cast<int>(to_double(m_encoded / TicksPerDay));
 #else
         int totalDays = static_cast<int>(m_encoded / TicksPerDay);
@@ -686,7 +686,7 @@ public:
      */
     int Hour() const
     {
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
         return static_cast<int>(to_double(std::fmod(m_encoded, TicksPerDay) / TicksPerHour));
 #else
         return static_cast<int>(m_encoded % TicksPerDay / TicksPerHour);
@@ -699,7 +699,7 @@ public:
      */
     int Minute() const
     {
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
         return static_cast<int>(to_double(std::fmod(m_encoded, TicksPerHour) / TicksPerMinute));
 #else
         return static_cast<int>(m_encoded % TicksPerHour / TicksPerMinute);
@@ -712,7 +712,7 @@ public:
      */
     int Second() const
     {
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
         return static_cast<int>(to_double(std::fmod(m_encoded, TicksPerMinute) / TicksPerSecond));
 #else
         return static_cast<int>(m_encoded % TicksPerMinute / TicksPerSecond);
@@ -725,7 +725,7 @@ public:
      */
     int Microsecond() const
     {
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
         return static_cast<int>(to_double(std::fmod(m_encoded, TicksPerSecond) / TicksPerMicrosecond));
 #else
         return static_cast<int>(m_encoded % TicksPerSecond / TicksPerMicrosecond);
@@ -800,7 +800,7 @@ public:
     }
 
 private:
-#if QD_INTEGRATION_ENABLED
+#if ENABLE_QD_INTEGRATION
     double m_encoded;
 #else
     int64_t m_encoded;

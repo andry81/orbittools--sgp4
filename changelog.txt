@@ -1,3 +1,9 @@
+2018.11.20:
+* new: ENABLE_QD_INTEGRATION definition usage
+* refactor: ENABLE_* variables usage refactor
+* refactor: removed QD_INTEGRATION_ENABLED variable usage
+* refactor: cast functions refactor
+
 2018.11.01:
 * changed: added missed tle element set number field extraction
 * changed: minor change over the `= default` operator usage (C++11 standard)
