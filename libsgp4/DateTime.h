@@ -754,8 +754,8 @@ public:
         double t   = (jd0 - 2451545.0) / 36525.0;
         double jdf = ToJulian() - jd0;
 
-        double gt  = double(int64_t(24110'54841)) / 1e5 + t * (double(int64_t(8640184'812866)) / 1e6 + t * (double(93104) / 1e6 - t * double(62) / 1e7));
-        gt  += jdf * double(int64_t(1'00273790935)) * 86400.0 / 1e11;
+        double gt  = double(int64_t(2411054841)) / 1e5 + t * (double(int64_t(8640184812866)) / 1e6 + t * (double(93104) / 1e6 - t * double(62) / 1e7));
+        gt  += jdf * double(int64_t(100273790935)) * 86400.0 / 1e11;
 
         // 360.0 / 86400.0 = 1.0 / 240.0
         return Util::WrapTwoPI(Util::DegreesToRadians(gt / 240.0));

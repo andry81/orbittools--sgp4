@@ -26,6 +26,7 @@
 
 #include <cmath>
 #include <iomanip>
+#include <cstring>
 
 #include "SysDefine.h"
 
@@ -183,7 +184,7 @@ void SGP4::Initialise()
                     common_consts_.sinio / elements_.Eccentricity();
         }
 
-        nearspace_consts_.c5 = 2.0 * coef1 * elements_.RecoveredSemiMajorAxis() * betao2 * (1.0 + double(2'75) *
+        nearspace_consts_.c5 = 2.0 * coef1 * elements_.RecoveredSemiMajorAxis() * betao2 * (1.0 + double(275) *
                 (etasq + eeta) / 1e2 + eeta * etasq);
         nearspace_consts_.omgcof = elements_.BStar() * c3 * std::cos(elements_.ArgumentPerigee());
 
@@ -695,24 +696,24 @@ void SGP4::DeepSpaceInitialise(
 
     double bfact = 0.0;
 
-    static const double ZNS = double(1'19459) / 1e10;
-    static const double C1SS = double(2'9864797) / 1e13;
+    static const double ZNS = double(119459) / 1e10;
+    static const double C1SS = double(29864797) / 1e13;
     static const double ZES = double(1675) / 1e5;
-    static const double ZNL = double(1'5835218) / 1e11;
-    static const double C1L = double(4'7968065) / 1e14;
+    static const double ZNL = double(15835218) / 1e11;
+    static const double C1L = double(47968065) / 1e14;
     static const double ZEL = double(5490) / 1e5;
     static const double ZCOSIS = double(91744867) / 1e8;
     static const double ZSINI = double(39785416) / 1e8;
     static const double ZSINGS = -double(98088458) / 1e8;
     static const double ZCOSGS = double(1945905) / 1e7;
-    static const double Q22 = double(1'7891679) / 1e13;
-    static const double Q31 = double(2'1460748) / 1e13;
-    static const double Q33 = double(2'2123015) /1e14;
-    static const double ROOT22 = double(1'7891679) / 1e13;
-    static const double ROOT32 = double(3'7393792) / 1e14;
-    static const double ROOT44 = double(7'3636953) / 1e10 / 1e6;
-    static const double ROOT52 = double(1'1428639) / 1e14;
-    static const double ROOT54 = double(2'1765803) / 1e10 / 1e6;
+    static const double Q22 = double(17891679) / 1e13;
+    static const double Q31 = double(21460748) / 1e13;
+    static const double Q33 = double(22123015) /1e14;
+    static const double ROOT22 = double(17891679) / 1e13;
+    static const double ROOT32 = double(37393792) / 1e14;
+    static const double ROOT44 = double(73636953) / 1e10 / 1e6;
+    static const double ROOT52 = double(11428639) / 1e14;
+    static const double ROOT54 = double(21765803) / 1e10 / 1e6;
 
     const double aqnv = 1.0 / elements_.RecoveredSemiMajorAxis();
     const double xpidot = omgdot + xnodot;
@@ -726,15 +727,15 @@ void SGP4::DeepSpaceInitialise(
      */
     const double jday = elements_.Epoch().ToJ2000();
 
-    const double xnodce = Util::WrapTwoPI(double(4'5236020) / 1e7 - double(9'2422029) * jday / 1e11);
+    const double xnodce = Util::WrapTwoPI(double(45236020) / 1e7 - double(92422029) * jday / 1e11);
     const double stem = std::sin(xnodce);
     const double ctem = std::cos(xnodce);
     const double zcosil = (double(91375164) - double(3568096) * ctem) / 1e8;
     const double zsinil = std::sqrt(1.0 - zcosil * zcosil);
     const double zsinhl = double(89683511) * stem / zsinil / 1e9;
     const double zcoshl = std::sqrt(1.0 - zsinhl * zsinhl);
-    const double c = (double(4'7199672) + double(22997150) * jday) / 1e8;
-    const double gam = (double(5'8351514000) + double(19443680) * jday) / 1e10;
+    const double c = (double(47199672) + double(22997150) * jday) / 1e8;
+    const double gam = (double(58351514000) + double(19443680) * jday) / 1e10;
     deepspace_consts_.zmol = Util::WrapTwoPI(c - gam);
     double zx = double(39785416) * stem / zsinil / 1e8;
     double zy = zcoshl * ctem + double(91744867) * zsinhl * stem / 1e8;
@@ -743,7 +744,7 @@ void SGP4::DeepSpaceInitialise(
 
     const double zcosgl = std::cos(zx);
     const double zsingl = std::sin(zx);
-    deepspace_consts_.zmos = Util::WrapTwoPI((double(6'256583700) + double(17201977) * jday) / 1e9);
+    deepspace_consts_.zmos = Util::WrapTwoPI((double(6256583700) + double(17201977) * jday) / 1e9);
 
     /*
      * do solar terms
@@ -825,8 +826,8 @@ void SGP4::DeepSpaceInitialise(
          * with
          * shdq = (-zn * s2 * (z21 + z23)) / sinio
          */
-        if (elements_.Inclination() < double(5'2359877) / 1e9
-                || elements_.Inclination() > kPI - double(5'2359877) / 1e9)
+        if (elements_.Inclination() < double(52359877) / 1e9
+                || elements_.Inclination() > kPI - double(52359877) / 1e9)
         {
             shdq = 0.0;
         }
@@ -901,12 +902,12 @@ void SGP4::DeepSpaceInitialise(
 
         const double g200 = 1.0 + eosq * (-2.5 + double(8125) * eosq / 1e4);
         const double g310 = 1.0 + 2.0 * eosq;
-        const double g300 = 1.0 + eosq * (-6.0 + double(6'60937) * eosq / 1e5);
+        const double g300 = 1.0 + eosq * (-6.0 + double(660937) * eosq / 1e5);
         const double f220 = 0.75 * (1.0 + cosio) * (1.0 + cosio);
         const double f311 = double(9375) * sinio * sinio * (1.0 + 3.0 * cosio) / 1e4
             - 0.75 * (1.0 + cosio);
         double f330 = 1.0 + cosio;
-        f330 = double(1'875) * f330 * f330 * f330 / 1e3;
+        f330 = double(1875) * f330 * f330 * f330 / 1e3;
         deepspace_consts_.del1 = 3.0 * elements_.RecoveredMeanMotion()
             * elements_.RecoveredMeanMotion()
             * aqnv * aqnv;
@@ -926,8 +927,8 @@ void SGP4::DeepSpaceInitialise(
             + deepspace_consts_.ssg
             + deepspace_consts_.ssh;
     }
-    else if (elements_.RecoveredMeanMotion() < double(8'26) / 1e5
-            || elements_.RecoveredMeanMotion() > double(9'24) / 1e5
+    else if (elements_.RecoveredMeanMotion() < double(826) / 1e5
+            || elements_.RecoveredMeanMotion() > double(924) / 1e5
             || elements_.Eccentricity() < 0.5)
     {
         // do nothing
@@ -951,40 +952,40 @@ void SGP4::DeepSpaceInitialise(
         if (elements_.Eccentricity() <= double(65) / 1e2)
         {
             g211 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    double(3'616) / 1e3, -double(13'247) / 1e3, double(16'290) / 1e3, 0.0);
+                    double(3616) / 1e3, -double(13247) / 1e3, double(16290) / 1e3, 0.0);
             g310 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    -double(19'302) / 1e3, double(117'390) / 1e3, -double(228'419) / 1e3, double(156'591) / 1e3);
+                    -double(19302) / 1e3, double(117390) / 1e3, -double(228419) / 1e3, double(156591) / 1e3);
             g322 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    -double(18'9068) / 1e4, double(109'7927) / 1e4, -double(214'6334) / 1e4, double(146'5816) / 1e4);
+                    -double(189068) / 1e4, double(1097927) / 1e4, -double(2146334) / 1e4, double(1465816) / 1e4);
             g410 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    -double(41'122) / 1e3, double(242'694) / 1e3, -double(471'094) / 1e3, double(313'953) / 1e3);
+                    -double(41122) / 1e3, double(242694) / 1e3, -double(471094) / 1e3, double(313953) / 1e3);
             g422 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    -double(146'407) / 1e3, double(841'880) / 1e3, -double(1629'014) / 1e3, double(1083'435) / 1e3);
+                    -double(146407) / 1e3, double(841880) / 1e3, -double(1629014) / 1e3, double(1083435) / 1e3);
             g520 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    -double(532'114) / 1e3, double(3017'977) / 1e3, -double(5740'032) / 1e3, double(3708'276) / 1e3);
+                    -double(532114) / 1e3, double(3017977) / 1e3, -double(5740032) / 1e3, double(3708276) / 1e3);
         }
         else
         {
             g211 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    -double(72'099) / 1e3, double(331'819) / 1e3, -double(508'738) / 1e3, double(266'724) / 1e3);
+                    -double(72099) / 1e3, double(331819) / 1e3, -double(508738) / 1e3, double(266724) / 1e3);
             g310 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    -double(346'844) / 1e3, double(1582'851) / 1e3, -double(2415'925) / 1e3, double(1246'113) / 1e3);
+                    -double(346844) / 1e3, double(1582851) / 1e3, -double(2415925) / 1e3, double(1246113) / 1e3);
             g322 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    -double(342'585) / 1e3, double(1554'908) / 1e3, -double(2366'899) / 1e3, double(1215'972) / 1e3);
+                    -double(342585) / 1e3, double(1554908) / 1e3, -double(2366899) / 1e3, double(1215972) / 1e3);
             g410 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    -double(1052'797) / 1e3, double(4758'686) / 1e3, -double(7193'992) / 1e3, double(3651'957) / 1e3);
+                    -double(1052797) / 1e3, double(4758686) / 1e3, -double(7193992) / 1e3, double(3651957) / 1e3);
             g422 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    -double(3581'69) / 1e2, double(16178'11) / 1e2, -double(24462'77) / 1e2, double(12422'52) / 1e2);
+                    -double(358169) / 1e2, double(1617811) / 1e2, -double(2446277) / 1e2, double(1242252) / 1e2);
 
             if (elements_.Eccentricity() <= double(715) / 1e3)
             {
                 g520 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                        double(1464'74) / 1e2, -double(4664'75) / 1e2, double(3763'64) / 1e2, 0.0);
+                        double(146474) / 1e2, -double(466475) / 1e2, double(376364) / 1e2, 0.0);
             }
             else
             {
                 g520 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                        -double(5149'66) / 1e2, double(29936'92) / 1e2, -double(54087'36) / 1e2, double(31324'56) / 1e2);
+                        -double(514966) / 1e2, double(2993692) / 1e2, -double(5408736) / 1e2, double(3132456) / 1e2);
             }
         }
 
@@ -995,38 +996,38 @@ void SGP4::DeepSpaceInitialise(
         if (elements_.Eccentricity() < double(7) / 1e1)
         {
             g533 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    -double(919'2277) / 1e4, double(4988'61) / 1e2, -double(9064'77) / 1e2, double(5542'21) / 1e2);
+                    -double(9192277) / 1e4, double(498861) / 1e2, -double(906477) / 1e2, double(554221) / 1e2);
             g521 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    -double(822'71072) / 1e5, double(4568'6173) / 1e4, -double(8491'4146) / 1e4, double(5337'524) / 1e3);
+                    -double(82271072) / 1e5, double(45686173) / 1e4, -double(84914146) / 1e4, double(5337524) / 1e3);
             g532 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    -double(853'666) / 1e3, double(4690'25) / 1e2, -double(8624'77) / 1e2, double(5341'4) / 1e1);
+                    -double(853666) / 1e3, double(469025) / 1e2, -double(862477) / 1e2, double(53414) / 1e1);
         }
         else
         {
             g533 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    -double(37995'78) / 1e2, double(161616'52) / 1e2, -double(229838'2) / 1e1, double(109377'94) / 1e2);
+                    -double(3799578) / 1e2, double(16161652) / 1e2, -double(2298382) / 1e1, double(10937794) / 1e2);
             g521 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    -double(51752'104) / 1e3, double(218913'95) / 1e2, -double(309468'16) / 1e2, double(146349'42) / 1e2);
+                    -double(51752104) / 1e3, double(21891395) / 1e2, -double(30946816) / 1e2, double(14634942) / 1e2);
             g532 = EvaluateCubicPolynomial(elements_.Eccentricity(),
-                    -double(40023'88) / 1e2, double(170470'89) / 1e2, -double(242699'48) / 1e2, double(115605'82) / 1e2);
+                    -double(4002388) / 1e2, double(17047089) / 1e2, -double(24269948) / 1e2, double(11560582) / 1e2);
         }
 
         const double sini2 = sinio * sinio;
         const double f220 = double(75) * (1.0 + 2.0 * cosio + theta2) / 1e2;
         const double f221 = 1.5 * sini2;
-        const double f321 = double(1'875) * sinio * (1.0 - 2.0 * cosio - 3.0 * theta2) / 1e3;
-        const double f322 = -double(1'875) * sinio * (1.0 + 2.0 * cosio - 3.0 * theta2) / 1e3;
+        const double f321 = double(1875) * sinio * (1.0 - 2.0 * cosio - 3.0 * theta2) / 1e3;
+        const double f322 = -double(1875) * sinio * (1.0 + 2.0 * cosio - 3.0 * theta2) / 1e3;
         const double f441 = 35.0 * sini2 * f220;
-        const double f442 = double(39'3750) * sini2 * sini2 / 1e4;
-        const double f522 = double(9'84375) * sinio / 1e5
+        const double f442 = double(393750) * sini2 * sini2 / 1e4;
+        const double f522 = double(984375) * sinio / 1e5
             * (sini2 * (1.0 - 2.0 * cosio - 5.0 * theta2)
                 + (-2.0 + 4.0 * cosio + 6.0 * theta2) / 3);
         const double f523 = sinio
-            * (double(4'92187512) * sini2 * (-2.0 - 4.0 * cosio + 10.0 * theta2)
-                + double(6'56250012) * (1.0 + 2.0 * cosio - 3.0 * theta2)) / 1e8;
-        const double f542 = double(29'53125) * sinio * (2.0 - 8.0 * cosio + theta2 *
+            * (double(492187512) * sini2 * (-2.0 - 4.0 * cosio + 10.0 * theta2)
+                + double(656250012) * (1.0 + 2.0 * cosio - 3.0 * theta2)) / 1e8;
+        const double f542 = double(2953125) * sinio * (2.0 - 8.0 * cosio + theta2 *
                 (-12.0 + 8.0 * cosio + 10.0 * theta2)) / 1e5;
-        const double f543 = double(29'53125) * sinio * (-2.0 - 8.0 * cosio + theta2 *
+        const double f543 = double(2953125) * sinio * (-2.0 - 8.0 * cosio + theta2 *
                 (12.0 + 8.0 * cosio - 10.0 * theta2)) / 1e5;
 
         const double xno2 = elements_.RecoveredMeanMotion()
@@ -1098,8 +1099,8 @@ void SGP4::DeepSpacePeriodics(
         double& xll)
 {
     static const double ZES = double(1675) / 1e5;
-    static const double ZNS = double(1'19459) / 1e10;
-    static const double ZNL = double(1'5835218) / 1e11;
+    static const double ZNS = double(119459) / 1e10;
+    static const double ZNL = double(15835218) / 1e11;
     static const double ZEL = double(5490) / 1e4;
 
     // calculate solar terms for time tsince
@@ -1223,13 +1224,13 @@ void SGP4::DeepSpaceSecular(
         double& xinc,
         double& xn)
 {
-    static const double G22 = double(5'7686396) / 1e7;
+    static const double G22 = double(57686396) / 1e7;
     static const double G32 = double(95240898) / 1e8;
-    static const double G44 = double(1'8014998) / 1e7;
-    static const double G52 = double(1'0508330) / 1e7;
-    static const double G54 = double(4'4108898) / 1e7;
+    static const double G44 = double(18014998) / 1e7;
+    static const double G52 = double(10508330) / 1e7;
+    static const double G54 = double(44108898) / 1e7;
     static const double FASX2 = double(13130908) / 1e8;
-    static const double FASX4 = double(2'8843198) / 1e7;
+    static const double FASX4 = double(28843198) / 1e7;
     static const double FASX6 = double(37448087) / 1e8;
 
     static const double STEP = 720.0;
