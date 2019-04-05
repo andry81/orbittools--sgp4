@@ -1,3 +1,6 @@
+2019.02.09:
+* changed: merge with the latest library repository changes at commit #6b47861cd47a6e31841260c47a52b579f8cf2fa9 (2018.11.05) from https://github.com/dnwrnr/sgp4/commits/master
+
 2018.11.22:
 * fixed: build under linux, use C++11 only
 * fixed: removed numeric literals group separator (apostrophe (')) usage which is part of C++14 standard

@@ -6,6 +6,10 @@ project("sgp4")
 
 set(PROJECT_LIB_NAME sgp4)
 
+# enable c++ standard usage for all targets, basically to avoid the default `--std=gnu++11` parameter for the GCC compiler
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 discover_variable(QD_ROOT PATH "QD math library")
 discover_variable(ENABLE_QD_INTEGRATION STRING "enable Qd library usage")
 discover_variable(ENABLE_QD_QD_INTEGRATION STRING "enable Qd library qd_real replacement for the double")
