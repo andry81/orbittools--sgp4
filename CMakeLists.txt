@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-include(Common)
+include(tacklelib/Project)
 
 project("sgp4")
 
@@ -10,10 +10,10 @@ set(PROJECT_LIB_NAME sgp4)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-discover_variable(QD_ROOT PATH "QD math library")
-discover_variable(ENABLE_QD_INTEGRATION STRING "enable Qd library usage")
-discover_variable(ENABLE_QD_QD_INTEGRATION STRING "enable Qd library qd_real replacement for the double")
-discover_variable(ENABLE_QD_DD_INTEGRATION STRING "enable Qd library dd_real replacement for the double")
+tkl_check_var(OPTIONAL PATH QD_ROOT)
+tkl_check_var(OPTIONAL . ENABLE_QD_INTEGRATION)
+tkl_check_var(OPTIONAL . ENABLE_QD_QD_INTEGRATION)
+tkl_check_var(OPTIONAL . ENABLE_QD_DD_INTEGRATION)
 
 
 # Workaround for the issue: https://stackoverflow.com/questions/51272106/cmake-add-subdirectory-twice-as-a-shared-project
@@ -30,13 +30,13 @@ file(GLOB_RECURSE all_sources ${CMAKE_CURRENT_LIST_DIR}/libsgp4/*.c*)
 add_library(${PROJECT_LIB_NAME} STATIC ${all_headers};${all_sources})
 #add_library(${PROJECT_LIB_NAME}s SHARED ${all_headers};${all_sources})
 
-initialize_library_target_defaults(${PROJECT_LIB_NAME} "32bit")
-#initialize_library_target_defaults(${PROJECT_LIB_NAME}s "32bit")
+tkl_initialize_library_target_defaults(${PROJECT_LIB_NAME} "32bit")
+#tkl_initialize_library_target_defaults(${PROJECT_LIB_NAME}s "32bit")
 
 #add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/libsgp4) # otherwise the error would appear
 
-source_groups_from_dir_list("Header Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.h*)
-source_groups_from_dir_list("Source Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.c*)
+tkl_source_groups_from_dir_list("Header Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.h*)
+tkl_source_groups_from_dir_list("Source Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.c*)
 
 #target_include_directories(${PROJECT_LIB_NAME}
 #  PUBLIC
@@ -45,14 +45,14 @@ source_groups_from_dir_list("Source Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.c*)
 
 foreach(target ${PROJECT_LIB_NAME})#;${PROJECT_LIB_NAME}s)
   if(WIN32)
-    add_target_compile_definitions(${target} *
+    tkl_add_target_compile_definitions(${target} *
       PUBLIC
         _X86_   # basically defined by MinGW, so define explicitly to compile in MSVC
     )
   endif()
 
   if(GCC)
-    add_target_compile_properties(${target} *
+    tkl_add_target_compile_properties(${target} *
       # from library authors
       -Wall -Wextra -Wshadow -Wshadow -Wnon-virtual-dtor -pedantic -Wno-long-long
       -Wcast-align -Wsign-conversion
@@ -62,7 +62,7 @@ endforeach()
 
 # integration with QD
 
-add_target_subdirectory(QD_ROOT qd ${CMAKE_BUILD_ROOT}/_3dparty/math/qd)
+tkl_add_target_subdirectory(QD_ROOT qd ${CMAKE_BUILD_ROOT}/_3dparty/math/qd)
 
 add_dependencies(${PROJECT_LIB_NAME} qd)
 
@@ -72,19 +72,19 @@ target_link_libraries(${PROJECT_LIB_NAME} # the workaround for the error from he
 )
 
 if (DEFINED ENABLE_QD_INTEGRATION)
-  add_target_compile_definitions(${PROJECT_LIB_NAME} *
+  tkl_add_target_compile_definitions(${PROJECT_LIB_NAME} *
     PUBLIC
       ENABLE_QD_INTEGRATION=${ENABLE_QD_INTEGRATION}
   )
 endif()
 if (DEFINED ENABLE_QD_QD_INTEGRATION)
-  add_target_compile_definitions(${PROJECT_LIB_NAME} *
+  tkl_add_target_compile_definitions(${PROJECT_LIB_NAME} *
     PUBLIC
       ENABLE_QD_QD_INTEGRATION=${ENABLE_QD_QD_INTEGRATION}
   )
 endif()
 if (DEFINED ENABLE_QD_DD_INTEGRATION)
-  add_target_compile_definitions(${PROJECT_LIB_NAME} *
+  tkl_add_target_compile_definitions(${PROJECT_LIB_NAME} *
     PUBLIC
       ENABLE_QD_DD_INTEGRATION=${ENABLE_QD_DD_INTEGRATION}
   )
