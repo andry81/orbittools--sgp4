@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2018.09.27
+* 2019.11.24
 * sgp4
 
 1. DESCRIPTION
@@ -14,6 +14,8 @@
 SGP4 patched sources fork from:
 https://www.danrw.com/sgp4/
 https://github.com/dnwrnr/sgp4
+
+Based on version: 2018.11.05 <6b47861cd47a6e31841260c47a52b579f8cf2fa9>
 
 Partially refactored to apply common namespace, and use C++ std types and std
 functions.
@@ -54,11 +56,14 @@ https://en.wikipedia.org/wiki/MIT_License)
 3. REPOSITORIES
 -------------------------------------------------------------------------------
 Primary:
-  * https://svn.code.sf.net/p/orbittools/sgp4/trunk
+  * https://sf.net/p/orbittools/sgp4/HEAD/tree/trunk
+    https://svn.code.sf.net/p/orbittools/sgp4/trunk
 First mirror:
-  * https://github.com/andry81/orbittools--sgp4.git
+  * https://github.com/andry81/orbittools--sgp4/tree/trunk
+    https://github.com/andry81/orbittools--sgp4.git
 Second mirror:
-  * https://bitbucket.org/andry81/orbittools-sgp4.git
+  * https://bitbucket.org/andry81/orbittools-sgp4/src/trunk
+    https://bitbucket.org/andry81/orbittools-sgp4.git
 
 -------------------------------------------------------------------------------
 4. INSTALLATION
