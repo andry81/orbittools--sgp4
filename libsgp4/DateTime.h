@@ -26,6 +26,7 @@
 #include <iostream>
 #include <sstream>
 #include <chrono>
+#include <algorithm>
 #include <cassert>
 #include "TimeSpan.h"
 #include "Util.h"

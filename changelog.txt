@@ -1,3 +1,6 @@
+2020.01.20:
+* changed: merge with the latest library repository changes at commit #f5cb54b382a5b4787432ab5b9a1e83de1a224610 (2019.12.07) from https://github.com/dnwrnr/sgp4/commits/master
+
 2020.01.19:
 * changed: readme update
 * missed change
