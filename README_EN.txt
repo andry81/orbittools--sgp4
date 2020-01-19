@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2019.11.24
+* 2020.01.19
 * sgp4
 
 1. DESCRIPTION
@@ -17,8 +17,8 @@ https://github.com/dnwrnr/sgp4
 
 Based on version: 2018.11.05 <6b47861cd47a6e31841260c47a52b579f8cf2fa9>
 
-Partially refactored to apply common namespace, and use C++ std types and std
-functions.
+Partially refactored to be used as a C++ library by adding namespaces, std
+types usage and std function calls.
 
 C++ SGP4 Satellite Library
 

@@ -33,19 +33,22 @@
 
 SGP4_NAMESPACE_BEGIN
 
-const int64_t TicksPerDay =  86400000000LL;
-const int64_t TicksPerHour =  3600000000LL;
-const int64_t TicksPerMinute =  60000000LL;
-const int64_t TicksPerSecond =   1000000LL;
-const int64_t TicksPerMillisecond = 1000LL;
-const int64_t TicksPerMicrosecond =    1LL;
+namespace
+{
+    static const int64_t TicksPerDay =  86400000000LL;
+    static const int64_t TicksPerHour =  3600000000LL;
+    static const int64_t TicksPerMinute =  60000000LL;
+    static const int64_t TicksPerSecond =   1000000LL;
+    static const int64_t TicksPerMillisecond = 1000LL;
+    static const int64_t TicksPerMicrosecond =    1LL;
 
-const int64_t UnixEpoch = 62135596800000000LL;
+    static const int64_t UnixEpoch = 62135596800000000LL;
 
-const int64_t MaxValueTicks = 315537897599999999LL;
+    static const int64_t MaxValueTicks = 315537897599999999LL;
 
-// 1582-Oct-15
-const int64_t GregorianStart = 49916304000000000LL;
+    // 1582-Oct-15
+    static const int64_t GregorianStart = 49916304000000000LL;
+}
 
 /**
  * @brief Represents a time interval.

@@ -1,3 +1,7 @@
+2020.01.19:
+* changed: readme update
+* missed change
+
 2019.11.24:
 * changed: readme update
 
